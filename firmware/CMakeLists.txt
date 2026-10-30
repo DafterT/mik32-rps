@@ -38,8 +38,8 @@ target_link_libraries(${APP_NAME}
 
 target_link_directories(${APP_NAME}
     PRIVATE
-        ${CMAKE_SOURCE_DIR}/hardware/mik32v2-shared/ldscripts
-        .
+        ${CMAKE_SOURCE_DIR}/third_party/mik32v2-shared/ldscripts
+        ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 # Convert output to hex and binary

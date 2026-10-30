@@ -7,7 +7,7 @@
         {
             "name": "Cortex Debug",
             "cwd": "${workspaceFolder}",
-            "executable": "${workspaceRoot}/build/app/base_project.elf",
+            "executable": "${workspaceFolder}/build/firmware/mik32-rps.elf",
             "request": "launch",
             "type": "cortex-debug",
             "runToEntryPoint": "main",

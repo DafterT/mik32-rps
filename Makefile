@@ -1,5 +1,5 @@
-MIK32_HAL_DIR=hardware/mik32-hal
-MIK32_SHARED_DIR=hardware/mik32v2-shared
+MIK32_HAL_DIR=third_party/mik32-hal
+MIK32_SHARED_DIR=third_party/mik32v2-shared
 
 BUILD_DIR=build
 CEEDLING_ENV=LC_ALL=C.UTF-8 LANG=C.UTF-8 RUBYOPT=-EUTF-8
@@ -15,10 +15,10 @@ build_app: update_submodules $(BUILD_DIR)
 update_submodules: $(MIK32_HAL_DIR)/README.md $(MIK32_SHARED_DIR)/README.md
 
 $(MIK32_HAL_DIR)/README.md:
-	git submodule update --init hardware/mik32-hal
+	git submodule update --init third_party/mik32-hal
 
 $(MIK32_SHARED_DIR)/README.md:
-	git submodule update --init hardware/mik32v2-shared
+	git submodule update --init third_party/mik32v2-shared
 
 $(BUILD_DIR):
 	cmake -G Ninja -B $(BUILD_DIR)
@@ -27,7 +27,7 @@ clean:
 	rm -rf $(BUILD_DIR)
 
 flash: build_app
-	python3 $(MIK32_UPLOADER_DIR)/mik32_upload.py build/app/base_project.hex --run-openocd \
+	python3 $(MIK32_UPLOADER_DIR)/mik32_upload.py $(BUILD_DIR)/firmware/mik32-rps.hex --run-openocd \
 	--openocd-exec /usr/bin/openocd \
 	--openocd-target $(MIK32_UPLOADER_DIR)/openocd-scripts/target/mik32.cfg \
 	--openocd-interface $(MIK32_UPLOADER_DIR)/openocd-scripts/interface/ftdi/mikron-link.cfg \
@@ -46,14 +46,14 @@ coverage_report:
 	$(CEEDLING_ENV) ceedling gcov:all report:gcov
 
 size_analyze_html: build_app
-	elf-size-analyze -t $(MIK32_TOOLCHAIN_DIR)/riscv-none-elf- -Ha --rom -W $(BUILD_DIR)/app/base_project.elf > size-analyze-rom.html
-	elf-size-analyze -t $(MIK32_TOOLCHAIN_DIR)/riscv-none-elf- -Ha --ram -W $(BUILD_DIR)/app/base_project.elf > size-analyze-ram.html
+	elf-size-analyze -t $(MIK32_TOOLCHAIN_DIR)/riscv-none-elf- -Ha --rom -W $(BUILD_DIR)/firmware/mik32-rps.elf > size-analyze-rom.html
+	elf-size-analyze -t $(MIK32_TOOLCHAIN_DIR)/riscv-none-elf- -Ha --ram -W $(BUILD_DIR)/firmware/mik32-rps.elf > size-analyze-ram.html
 
 size_analyze_rom: build_app
-	elf-size-analyze -t $(MIK32_TOOLCHAIN_DIR)/riscv-none-elf- -w 120 -Ha --rom $(BUILD_DIR)/app/base_project.elf
+	elf-size-analyze -t $(MIK32_TOOLCHAIN_DIR)/riscv-none-elf- -w 120 -Ha --rom $(BUILD_DIR)/firmware/mik32-rps.elf
 
 size_analyze_ram: build_app
-	elf-size-analyze -t $(MIK32_TOOLCHAIN_DIR)/riscv-none-elf- -w 120 -Ha --ram $(BUILD_DIR)/app/base_project.elf
+	elf-size-analyze -t $(MIK32_TOOLCHAIN_DIR)/riscv-none-elf- -w 120 -Ha --ram $(BUILD_DIR)/firmware/mik32-rps.elf
 
 size_analyze_sections: build_app
-	elf-size-analyze -t $(MIK32_TOOLCHAIN_DIR)/riscv-none-elf- -w 120 -Ha -P $(BUILD_DIR)/app/base_project.elf
+	elf-size-analyze -t $(MIK32_TOOLCHAIN_DIR)/riscv-none-elf- -w 120 -Ha -P $(BUILD_DIR)/firmware/mik32-rps.elf

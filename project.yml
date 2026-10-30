@@ -97,20 +97,20 @@
 # see documentation for the many options for specifying this.
 :paths:
   :test:
-    - +:test/**
+    - +:tests/**
   :source:
-    - app/controller/**
-    - app/game/**
-    - app/math/**
-    - app/neural_network/**
-    - app/rfid/**
+    - firmware/controller/**
+    - firmware/game/**
+    - firmware/math/**
+    - firmware/neural_network/**
+    - firmware/rfid/**
   :include:
-    - app
-    - app/controller
-    - app/game
-    - app/math
-    - app/neural_network
-    - app/rfid
+    - firmware
+    - firmware/controller
+    - firmware/game
+    - firmware/math
+    - firmware/neural_network
+    - firmware/rfid
   :libraries: []
 
 # You can even specify specific files to add or remove from your test
@@ -272,8 +272,8 @@
     :html_high_threshold: 90
     :branches: TRUE
     :print_summary: TRUE
-    :report_include: "^app/"
-    :report_exclude: "^test/|^build/|^hardware/|^mik32-examples/"
+    :report_include: "^firmware/"
+    :report_exclude: "^tests/|^build/|^third_party/"
     :exclude_unreachable_branches: TRUE
     :exclude_throw_branches: TRUE
     # :html_absolute_paths: TRUE
